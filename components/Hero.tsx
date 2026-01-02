@@ -108,7 +108,7 @@ export default function Hero() {
                 </div> */}
 
                 <Image
-                  src="/profile.jpg"
+                  src="/profile.png"
                   alt="Profile photo"
                   fill
                   priority
