@@ -163,7 +163,11 @@ export default function Skills() {
                       <div
                         className="h-full bg-gradient-to-r from-cyan-500 to-violet-500 rounded-full transition-all duration-1000 ease-out"
                         style={{
-                          width: `${proficiencyMap[skill.proficiency]}%`,
+                          width: `${
+                            proficiencyMap[
+                              skill.proficiency as keyof typeof proficiencyMap
+                            ]
+                          }%`,
                           animationDelay: `${
                             categoryIndex * 0.1 + skillIndex * 0.05
                           }s`,
