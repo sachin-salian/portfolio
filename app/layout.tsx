@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name | Senior Full-Stack Engineer (Mobile & Web)",
+  title: "Sachin Kumar Kaniyaru | Senior Full-Stack Engineer (Mobile & Web)",
   description:
     "Senior Full-Stack Engineer specializing in React Native, React, and Node.js. Experienced in building secure, high-performance mobile and web applications at scale.",
   keywords: [

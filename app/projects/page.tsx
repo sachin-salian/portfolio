@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects | Your Name",
+  title: "Projects | Sachin Kumar Kaniyaru",
   description:
-    "Featured projects and work by Your Name, a Senior Full-Stack Engineer.",
+    "Featured projects and work by Sachin Kumar Kaniyaru, a Senior Full-Stack Engineer.",
 };
 
 export default function ProjectsPage() {
@@ -48,9 +48,9 @@ export default function ProjectsPage() {
               All <span className="gradient-text">Projects</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-2xl leading-relaxed opacity-0 animate-fade-in-up delay-200">
-              A comprehensive collection of projects I&apos;ve worked on throughout my career.
-              Each project represents a unique challenge and demonstrates my
-              approach to solving complex problems.
+              A comprehensive collection of projects I&apos;ve worked on
+              throughout my career. Each project represents a unique challenge
+              and demonstrates my approach to solving complex problems.
             </p>
           </div>
         </section>
