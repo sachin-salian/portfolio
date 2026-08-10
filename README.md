@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sachin Kumar K — Portfolio
 
-## Getting Started
+Premium product-engineer portfolio. Dark editorial UI with restrained motion.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS 4**
+- **Motion** (`motion/react`) — reveals, micro-interactions
+- **Lenis** — desktop smooth scrolling (disabled on touch / reduced-motion)
+- **Lucide** — icons
+- **next/font** — Space Grotesk, Source Sans 3, Instrument Serif, JetBrains Mono
+
+No Three.js. GSAP removed in this rebuild — Motion + Lenis cover the motion budget.
+
+## Architecture
+
+```
+src/
+  app/                 # routes, layout, globals, SEO
+  content/portfolio.ts # all copy & structured data
+  components/
+    layout/            # shell, nav, loader, cursor, smooth scroll
+    motion/            # Reveal, TextReveal, Magnetic, ScrollProgress
+    sections/          # page sections
+  lib/                 # cn, motion helpers
+public/                # resume PDF, profile image
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Edit **`src/content/portfolio.ts`** only for facts and copy.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Person / hero / nav
+- Experience timeline
+- Projects (mini case studies)
+- Stack groups, DNA, under-the-hood, principles
+- Lab, outside, contact
 
-## Learn More
+See **`CONTENT_GAPS.md`** for what to add later without inventing claims.
 
-To learn more about Next.js, take a look at the following resources:
+## Add a project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Append an object to `projects` in `src/content/portfolio.ts`.
+2. Follow the shape: thesis, context, problem, approach, decision, outcome, stack.
+3. Prefer a **decision worth knowing** over a technology list.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Animation system
 
-## Deploy on Vercel
+| Primitive | Use |
+| --- | --- |
+| `Reveal` | Section blocks enter once |
+| `TextReveal` | Word-stagger headlines (optional) |
+| `Magnetic` | Subtle CTA pointer pull (fine pointer only) |
+| `ScrollProgress` | Top progress bar |
+| `CustomCursor` | Desktop-only; disabled on touch / reduced-motion |
+| `Loader` | Sub-second boot curtain |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Respects `prefers-reduced-motion`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm start
+```
+
+## Deploy
+
+Works on **Vercel** (or any Node host supporting Next.js).
+
+1. Connect the GitHub repo to Vercel.
+2. Framework preset: Next.js.
+3. Ensure `public/Sachin_Resume.pdf` and `public/profile.png` ship with the build.
+4. Set production URL in `src/app/layout.tsx` `metadataBase` / JSON-LD if the domain changes.
+
+## SEO
+
+- Title / description / Open Graph / Twitter in `layout.tsx`
+- Person JSON-LD
+- Canonical via `metadataBase` + `alternates.canonical`
+
+Add `sitemap.ts` / `robots.ts` when the production domain is final.
