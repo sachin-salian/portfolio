@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 type RevealProps = {
@@ -10,14 +10,32 @@ type RevealProps = {
   y?: number;
 };
 
+function subscribeCoarse(onChange: () => void) {
+  const mq = window.matchMedia("(pointer: coarse)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function useCoarsePointer() {
+  return useSyncExternalStore(
+    subscribeCoarse,
+    () => window.matchMedia("(pointer: coarse)").matches,
+    () => false,
+  );
+}
+
 export function Reveal({ children, className, delay = 0, y = 28 }: RevealProps) {
   const reduce = useReducedMotion();
+  const coarse = useCoarsePointer();
+  // Mobile Chrome + IO quirks: never leave content stuck at opacity 0.
+  const skipReveal = Boolean(reduce || coarse);
+
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
+      initial={skipReveal ? false : { opacity: 0, y }}
+      whileInView={skipReveal ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -8% 0px" }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -35,6 +53,8 @@ export function TextReveal({
   as?: "p" | "h1" | "h2" | "h3" | "span";
 }) {
   const reduce = useReducedMotion();
+  const coarse = useCoarsePointer();
+  const skipReveal = Boolean(reduce || coarse);
   const words = text.split(" ");
   return (
     <Tag className={className}>
@@ -42,9 +62,9 @@ export function TextReveal({
         <motion.span
           key={`${word}-${i}`}
           className="inline-block mr-[0.3em]"
-          initial={reduce ? false : { opacity: 0, y: "0.55em" }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-8% 0px" }}
+          initial={skipReveal ? false : { opacity: 0, y: "0.55em" }}
+          whileInView={skipReveal ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2, margin: "0px 0px -5% 0px" }}
           transition={{ duration: 0.55, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }}
         >
           {word}

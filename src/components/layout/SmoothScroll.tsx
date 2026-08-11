@@ -14,6 +14,9 @@ export default function SmoothScroll({ children, enabled = true }: Props) {
   useEffect(() => {
     if (!enabled) return;
     if (prefersReducedMotion()) return;
+    // Native touch scrolling is more reliable on mobile Chrome; Lenis can
+    // desync IntersectionObserver and leave scroll-reveal sections invisible.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     // Mac trackpads emit wheel events — Lenis must see full document height.
     const lenis = new Lenis({
