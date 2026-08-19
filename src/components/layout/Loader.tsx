@@ -13,13 +13,16 @@ export default function Loader({ onDone }: { onDone: () => void }) {
         setDone(true);
         onDone();
       },
-      reduce ? 80 : 780,
+      reduce ? 40 : 420,
     );
     return () => window.clearTimeout(t);
   }, [onDone]);
 
+  // Fully remove after fade so it cannot block paints on mobile Chrome.
+  if (done) return null;
+
   return (
-    <div className={`loader ${done ? "is-done" : ""}`} aria-hidden={done}>
+    <div className="loader" aria-hidden={false}>
       <p className="loader-mark">
         SACHIN <span style={{ color: "var(--accent)" }}>/ 01</span>
       </p>

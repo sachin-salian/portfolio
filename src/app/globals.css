@@ -68,10 +68,8 @@ body {
   /* Overlay blocks interaction; do NOT lock height — that breaks Lenis/trackpad scroll measurement */
 }
 
-html:has(.site-shell.is-loading),
-html:has(.site-shell.is-loading) body {
-  overflow: hidden;
-}
+/* Avoid locking html/body overflow during boot — Chrome mobile can keep
+   scroll metrics wrong and leave later sections looking empty. */
 
 ::selection {
   background: var(--accent);
@@ -414,9 +412,10 @@ img {
   margin: 0;
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.055em;
-  line-height: 0.92;
-  font-size: clamp(3rem, 10vw, 6.5rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  font-size: clamp(2.4rem, 9vw, 6.5rem);
+  overflow-wrap: anywhere;
 }
 
 .hero-lines span {
@@ -901,10 +900,17 @@ img {
 }
 
 .contact {
-  min-height: 85svh;
+  min-height: auto;
   display: grid;
   align-content: center;
   border-top: 1px solid var(--line);
+  padding-block: clamp(4.5rem, 12vw, 8rem);
+}
+
+@media (min-width: 900px) {
+  .contact {
+    min-height: 85svh;
+  }
 }
 
 .contact h2 {
